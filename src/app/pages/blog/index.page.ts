@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { RouteMeta } from '@analogjs/router';
+import type { RouteMeta } from '@analogjs/router';
 import { injectContentFiles } from '@analogjs/content';
 import { DatePipe, NgForOf } from '@angular/common';
 
