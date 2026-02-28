@@ -1,6 +1,9 @@
+// src/app/post-attributes.ts
 export default interface PostAttributes {
   title: string;
   slug: string;
   description: string;
-  coverImage: string;
+  date: string;
+  tags: string[];
+  coverImage?: string;""
 }

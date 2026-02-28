@@ -1,26 +1,35 @@
-# analog-bloger
+# 🏰 Citadel: Shekinah Cloud Mission Blog
 
-This project was generated with [Analog](https://analogjs.org), the fullstack meta-framework for Angular.
+Это не просто блог, а цифровая Цитадель, возведенная на стеках **Analog.js** и **Angular**. Проект предназначен для ведения хроник «Школы Христа» и миссии в Казахстане.
 
-## Setup
+## 🚀 Развертывание в один клик
 
-Run `npm install` to install the application dependencies.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FВашЮзернейм%2Fanalog-bloger)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ВашЮзернейм/analog-bloger)
+[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Deploy%20to-Cloudflare%20Pages-orange?style=for-the-badge&logo=cloudflare)](https://dash.cloudflare.com/pages/new)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/ВашЮзернейм/analog-bloger)
 
-## Development
+---
 
-Run `npm start` for a dev server. Navigate to `http://localhost:5173/`. The application automatically reloads if you change any of the source files.
+## 🛠️ Технологический Стек
+* **Framework:** [Analog.js](https://analogjs.org) (Angular Meta-framework)
+* **Content:** Markdown (Contentlayer-like filesystem routing)
+* **Styling:** Tailwind CSS + Custom Mystic Gradients
+* **Icons:** Lucide Angular / Custom SVG (Shekinah Logo)
 
-## Build
+## 🏃 Быстрый старт
 
-Run `npm run build` to build the client/server project. The client build artifacts are located in the `dist/analog/public` directory. The server for the API build artifacts are located in the `dist/analog/server` directory.
-
-## Test
-
-Run `npm run test` to run unit tests with [Vitest](https://vitest.dev).
-
-## Community
-
-- Visit and Star the [GitHub Repo](https://github.com/analogjs/analog)
-- Join the [Discord](https://chat.analogjs.org)
-- Follow us on [Twitter](https://twitter.com/analogjs)
-- Become a [Sponsor](https://github.com/sponsors/brandonroberts)
+1. **Установка зависимостей:**
+   ```bash
+   npm install
+   
+   Запуск кельи разработки:
+   npm run dev
+   
+   Сборка для вечности:
+   npm run build
+   
+ "При поддержке Апостол AI Gemini" 🛡️  
+   
+   
+   
