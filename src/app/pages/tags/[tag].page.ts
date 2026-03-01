@@ -2,10 +2,12 @@ import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
 import { injectContentFiles } from '@analogjs/content';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import type { RouteMeta } from '@analogjs/router';
 import { map } from 'rxjs';
 
-// Логотип пока не импортируем, чтобы не было конфликтов путей
-// import { LogoComponent } from '../../../components/logo.component';
+export const routeMeta: RouteMeta = {
+  title: 'Теги | Мистическая Цитадель',
+};
 
 interface PostAttributes {
   title: string;
@@ -17,10 +19,15 @@ interface PostAttributes {
 
 @Component({
   standalone: true,
-  // УДАЛИЛИ LogoComponent отсюда, чтобы не было ошибки "Cannot find name"
   imports: [AsyncPipe, NgFor, NgIf, RouterLink, DatePipe],
   template: `
   <div class="min-h-screen w-full bg-[#0f011a] text-stone-200 font-sans selection:bg-cyan-500/30 overflow-x-hidden p-8 md:p-20">
+
+  <nav class="mb-16">
+  <a routerLink="/" class="text-cyan-500 hover:text-cyan-300 transition-all font-mono text-xs uppercase tracking-[0.3em] focus:outline-none">
+  ← На главную Цитадели
+  </a>
+  </nav>
 
   <header class="mb-20 mt-10">
   <div class="flex items-center gap-4 mb-6">
@@ -33,7 +40,8 @@ interface PostAttributes {
   </header>
 
   <div class="grid gap-16 max-w-5xl">
-  @for (post of posts$ | async; track post.attributes.slug) {
+  <ng-container *ngIf="(posts$ | async) as posts">
+  @for (post of posts; track post.attributes.slug) {
     <article class="group relative pb-12 border-b border-violet-900/40 last:border-0 transition-all hover:border-cyan-500/50">
     <time class="text-[10px] font-mono text-cyan-500 uppercase tracking-[0.4em] mb-4 block">
     {{ post.attributes.date | date: 'longDate' }}
@@ -61,21 +69,15 @@ interface PostAttributes {
     <p class="text-stone-500 italic font-serif text-xl">В свитках Цитадели пока нет записей с этим ключом...</p>
     </div>
   }
+  </ng-container>
   </div>
 
   <footer class="mt-32 pt-12 border-t-2 border-violet-950 flex flex-col md:flex-row justify-between items-center gap-8">
-  <a routerLink="/blog" class="group flex items-center gap-4 text-cyan-500 hover:text-cyan-300 transition-all font-mono text-xs uppercase tracking-[0.3em]">
-  <span class="group-hover:-translate-x-2 transition-transform">←</span>
-  Вернуться в ленту откровений
-  </a>
-
-  <div class="text-right">
   <div class="text-cyan-900/50 font-mono text-[10px] uppercase tracking-[0.6em]">
   Citadel AI | 2026
   </div>
-  <div class="text-fuchsia-500 font-mono text-[9px] uppercase tracking-[0.4em] animate-pulse mt-1">
-  При поддержке Апостол AI Gemini
-  </div>
+  <div class="text-fuchsia-500 font-mono text-[9px] uppercase tracking-[0.4em] animate-pulse">
+  Soli Deo Gloria
   </div>
   </footer>
   </div>
@@ -99,10 +101,14 @@ export default class TagPage {
     map(params => params.get('tag'))
   );
 
+  private readonly allPosts = injectContentFiles<PostAttributes>();
+
   readonly posts$ = this.tag$.pipe(
     map(tag => {
-      return injectContentFiles<PostAttributes>().filter(post =>
-      post.attributes.tags?.some(t => t.toLowerCase() === tag?.toLowerCase())
+      const lowerTag = tag?.trim().toLowerCase();
+      if (!lowerTag) return [];
+      return this.allPosts.filter(post =>
+      post.attributes.tags?.some(t => t.trim().toLowerCase() === lowerTag)
       );
     })
   );

@@ -18,6 +18,7 @@ export default defineConfig(({ mode }) => ({
         highlighter: 'shiki',
       },
       prerender: {
+        discover: true, // crawl links and dynamically discover tag pages
         routes: ['/blog', '/blog/2022-12-27-my-first-post'],
       },
     }),
