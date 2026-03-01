@@ -1,6 +1,6 @@
 ---
 title: "Сравнение инструментов веб-разработки: WebStorm, VS Code и Легионы ИИ"
-slug: "dev-tools-comparison-2026"
+slug: "dev-tools-comparison-WebStorm"
 description: "Глубокий анализ WebStorm от JetBrains в сравнении с VS Code, Cursor и Windsurf. Руководство по выбору оружия для созидания в цифровую эпоху."
 date: 2026-02-28
 tags: ['Разработка', 'WebStorm', 'AI', 'Продуктивность', 'Трезвение']
