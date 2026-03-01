@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import type { RouteMeta } from '@analogjs/router';
 import { injectContentFiles } from '@analogjs/content';
-import { DatePipe, NgForOf } from '@angular/common';
+import { DatePipe, NgForOf, NgIf } from '@angular/common'; // Добавил NgIf
 
 interface PostAttributes {
   title: string;
@@ -20,7 +20,7 @@ export const routeMeta: RouteMeta = {
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [RouterLink, DatePipe, NgForOf],
+  imports: [RouterLink, DatePipe, NgForOf, NgIf], // Не забываем NgIf
   template: `
   <div class="min-h-screen w-full bg-[#0f011a] text-stone-100 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
 
@@ -46,7 +46,14 @@ export const routeMeta: RouteMeta = {
   <h3 class="text-xs font-mono uppercase tracking-[0.7em] text-cyan-600 mb-10 font-bold">Лента откровений</h3>
 
   @for (post of pagedPosts; track post.attributes.slug) {
-    <article class="group relative pb-12 border-b border-violet-900/50 last:border-0">
+    <article class="group relative pb-12 border-b border-violet-900/50 last:border-0 text-left">
+
+    <div *ngIf="post.attributes.coverImage" class="mb-8 overflow-hidden rounded-3xl border border-violet-900/50 aspect-video md:aspect-[21/9]">
+    <img [src]="post.attributes.coverImage"
+    class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+    [alt]="post.attributes.title">
+    </div>
+
     <div class="mb-6 flex items-center gap-6">
     <time class="text-violet-950 font-mono text-[10px] uppercase tracking-widest bg-cyan-400 px-4 py-1.5 rounded-full font-bold">
     {{ post.attributes.date | date: 'mediumDate' }}
@@ -55,7 +62,7 @@ export const routeMeta: RouteMeta = {
     </div>
 
     <a [routerLink]="['/blog', post.attributes.slug]" class="block group">
-    <h2 class="text-3xl font-extrabold text-stone-50 group-hover:text-cyan-400 transition-colors mb-4 tracking-tight font-serif">
+    <h2 class="text-3xl font-extrabold text-stone-50 group-hover:text-cyan-400 transition-colors mb-4 tracking-tight font-serif uppercase">
     {{ post.attributes.title }}
     </h2>
     <p class="text-base text-stone-400 leading-relaxed max-w-4xl line-clamp-2">
@@ -66,7 +73,7 @@ export const routeMeta: RouteMeta = {
     <div class="mt-6 flex flex-wrap gap-3">
     @for (tag of post.attributes.tags; track tag) {
       <a [routerLink]="['/tags', tag]"
-      class="px-4 py-1 text-[10px] font-mono text-cyan-400 border border-cyan-900 rounded-full uppercase hover:bg-cyan-900 transition-colors">
+      class="px-4 py-1 text-[10px] font-mono text-cyan-400 border border-cyan-900 rounded-full uppercase hover:bg-cyan-900 transition-colors cursor-pointer no-underline">
       #{{ tag }}
       </a>
     }
@@ -82,7 +89,7 @@ export const routeMeta: RouteMeta = {
   </div>
 
   <aside class="lg:w-1/4">
-  <div class="sticky top-24 p-10 rounded-[2rem] border-2 border-cyan-900 bg-[#150022] shadow-xl">
+  <div class="sticky top-24 p-10 rounded-[2rem] border-2 border-cyan-900 bg-[#150022] shadow-xl text-left">
   <h3 class="text-sm font-bold uppercase tracking-widest mb-10 flex items-center text-cyan-400 font-mono">
   <span class="w-2 h-2 bg-cyan-400 rounded-full mr-4 animate-pulse"></span>
   Ключи познания
@@ -91,7 +98,7 @@ export const routeMeta: RouteMeta = {
   <div class="flex flex-wrap gap-3">
   @for (tag of allTags; track tag) {
     <a [routerLink]="['/tags', tag]"
-    class="px-5 py-2 text-[10px] font-mono font-bold rounded-full border border-cyan-800 text-cyan-400 hover:border-fuchsia-500 hover:text-fuchsia-400 transition-all uppercase bg-cyan-950/50">
+    class="px-5 py-2 text-[10px] font-mono font-bold rounded-full border border-cyan-800 text-cyan-400 hover:border-fuchsia-500 hover:text-fuchsia-400 transition-all uppercase bg-cyan-950/50 cursor-pointer no-underline">
     {{ tag }}
     </a>
   }
@@ -123,9 +130,8 @@ export const routeMeta: RouteMeta = {
 export default class Blog {
   readonly allPosts = injectContentFiles<PostAttributes>();
 
-  // Пагинация: берем только первые 10 постов для главной
   get pagedPosts() {
-    return this.allPosts
+    return [...this.allPosts] // Используем spread для предотвращения мутации
     .sort((a, b) => new Date(b.attributes.date).getTime() - new Date(a.attributes.date).getTime())
     .slice(0, 10);
   }
